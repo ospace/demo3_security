@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+</head>
+<body>
+    <form action="/api/regisger" method="post">
+        <input type="text" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div>
+            <input name="id" type="text" placeholder="UserID"/>
+        </div>
+        <div>
+            <input name="pwd" type="password" placeholder="Password"/>
+        </div>
+        <div>
+            <input type="submit" value="가입하기"/>
+        </div>
+    </form>
+</body>
+</html>
