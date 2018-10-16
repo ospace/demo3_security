@@ -25,4 +25,10 @@ public class User {
 	public void setRoles(List<UserRole> roles) {
 		this.roles = roles;
 	}
+	
+	public String toString() {
+		return String.format("id[%s] pwd[%s]", id, pwd);
+	}
 }
+
+
