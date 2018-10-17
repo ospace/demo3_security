@@ -1,5 +1,7 @@
 package com.example.demo3;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,8 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/**").permitAll()
 			.antMatchers("/**").permitAll()
 		.and().formLogin()
-			.loginPage("/login.html")
+			.loginPage("/api/login")
 			.loginProcessingUrl("/api/login")
-			.defaultSuccessUrl("/");
+			.defaultSuccessUrl("/")
+			.failureUrl("/");
+	}
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println(">>>> configureGlobal");
 	}
 }

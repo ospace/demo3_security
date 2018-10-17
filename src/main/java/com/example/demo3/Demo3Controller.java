@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/api")
@@ -35,7 +35,6 @@ public class Demo3Controller {
 	}
 	
 	@PostMapping("/hello")
-	//@RequestMapping(name="/register", method=RequestMethod.POST)
 	public String foo() {
 		logger.info("foo");
 		return "redirect:/";
@@ -43,9 +42,9 @@ public class Demo3Controller {
 	
 	@PostMapping("/register")
 	public String register(User user) {
-		logger.info("register : user[{}]", user);
-		
 		user.setPwd(pwdEncoder.encode(user.getPwd()));
+		
+		logger.info("register : user[{}]", user);
 		
 		UserRole role = new UserRole();
 		role.setName("BASIC");
@@ -53,5 +52,13 @@ public class Demo3Controller {
 		
 		userRepo.add(user);
 		return "redirect:/";
+	}
+	
+	@GetMapping("/login")
+	public String loginFrom(HttpServletRequest req) {
+		String referer = req.getHeader("Referer");
+		req.getSession().setAttribute("prevPage", referer);
+		logger.info("login : Referer[{}]", referer);
+		return "login";
 	}
 }
