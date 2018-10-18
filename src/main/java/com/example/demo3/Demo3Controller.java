@@ -3,11 +3,15 @@ package com.example.demo3;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api")
 public class Demo3Controller {
 	private static Logger logger = LoggerFactory.getLogger(Demo3Controller.class);
+	
 	@Autowired
 	private UserRepository userRepo;
 	
@@ -47,7 +52,12 @@ public class Demo3Controller {
 		logger.info("register : user[{}]", user);
 		
 		UserRole role = new UserRole();
-		role.setName("BASIC");
+		if("admin".equals(user.getId())) {
+			role.setName("ADMIN");
+		} else {
+			role.setName("BASIC");
+		}
+		
 		user.setRoles(Arrays.asList(role));
 		
 		userRepo.add(user);
@@ -60,5 +70,14 @@ public class Demo3Controller {
 		req.getSession().setAttribute("prevPage", referer);
 		logger.info("login : Referer[{}]", referer);
 		return "login";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest req, HttpServletResponse res) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(req, res, auth);
+	    }
+		return "redirect:/";
 	}
 }
