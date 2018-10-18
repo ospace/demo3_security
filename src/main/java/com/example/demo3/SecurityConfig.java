@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/**").permitAll()
 		.and().formLogin()
 			.loginPage("/api/login") // 인증페이지 위치(GET)
-			.loginProcessingUrl("/api/login") //인증 처리(POST)
+//			.loginProcessingUrl("/api/login") //인증 처리(POST)
 			.defaultSuccessUrl("/")
 			.failureUrl("/api/login")
 		.and().exceptionHandling()
@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		System.out.println(">>>> configureGlobal");
 		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 }
