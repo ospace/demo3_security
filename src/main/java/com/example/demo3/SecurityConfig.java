@@ -47,29 +47,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.csrf().disable();
+		http.csrf().disable();
 		http.authorizeRequests()
-			.antMatchers("/admin/**").access("hasRole('ADMIN') and hasRole('SUPER')")
+//			.antMatchers("/admin/**").access("hasRole('ADMIN') and hasRole('SUPER')")
+		    .antMatchers("/admin/**").hasRole("ADMIN")		
 			.antMatchers("/user/**").authenticated()
-			.antMatchers("/api/**").permitAll()
 			.antMatchers("/**").permitAll()
 		.and().formLogin()
-			.loginPage("/api/login") // 인증페이지 위치(GET)
-//			.loginProcessingUrl("/api/login") //인증 처리(POST)
+			.loginPage("/login.html") // 인증페이지 위치(GET)
+//			.loginProcessingUrl("/login") //인증 처리(POST)
 //			.defaultSuccessUrl("/")
-			.failureUrl("/api/login")
-			.successHandler(new LonginSuccessHandler("/"))
+			.failureUrl("/login")
+//			.successHandler(new LonginSuccessHandler("/"))
 		.and().exceptionHandling()
 			.accessDeniedPage("/denied.html")
 		.and().logout()
+			.logoutSuccessUrl("/thankyou.html")
 		.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 	}
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+		auth.inMemoryAuthentication()
+			.withUser("admin").password(new BCryptPasswordEncoder().encode("a")).roles("ADMIN")
+			.and().passwordEncoder(new BCryptPasswordEncoder());
 	}
-	
 	
 	private Filter ssoFilter() {
 		CompositeFilter filter = new CompositeFilter();

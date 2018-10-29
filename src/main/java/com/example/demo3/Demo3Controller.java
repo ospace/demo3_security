@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/")
 public class Demo3Controller {
 	private static Logger logger = LoggerFactory.getLogger(Demo3Controller.class);
 	
@@ -52,11 +52,12 @@ public class Demo3Controller {
 		logger.info("register : user[{}]", user);
 		
 		UserRole role = new UserRole();
-		if("admin".equals(user.getId())) {
-			role.setName("ADMIN");
-		} else {
-			role.setName("BASIC");
-		}
+//		if("admin".equals(user.getId())) {
+//			role.setName("ADMIN");
+//		} else {
+//			role.setName("BASIC");
+//		}
+		role.setName("BASIC");
 		
 		user.setRoles(Arrays.asList(role));
 		
@@ -64,20 +65,20 @@ public class Demo3Controller {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/login")
-	public String loginFrom(HttpServletRequest req) {
-		String referer = req.getHeader("Referer");
-		req.getSession().setAttribute("prevPage", referer);
-		logger.info("login : Referer[{}]", referer);
-		return "login";
-	}
+//	@GetMapping("/login")
+//	public String loginFrom(HttpServletRequest req) {
+//		String referer = req.getHeader("Referer");
+//		req.getSession().setAttribute("prevPage", referer);
+//		logger.info("login : Referer[{}]", referer);
+//		return "login";
+//	}
 	
-	@GetMapping("/logout")
-	public String logout(HttpServletRequest req, HttpServletResponse res) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    if (auth != null){    
-	        new SecurityContextLogoutHandler().logout(req, res, auth);
-	    }
-		return "redirect:/";
-	}
+//	@GetMapping("/logout")
+//	public String logout(HttpServletRequest req, HttpServletResponse res) {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	    if (auth != null){    
+//	        new SecurityContextLogoutHandler().logout(req, res, auth);
+//	    }
+//		return "redirect:/";
+//	}
 }

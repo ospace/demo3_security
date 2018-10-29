@@ -14,9 +14,13 @@ public class SecurityUser extends org.springframework.security.core.userdetails.
 		super(user.getId(), user.getPwd(), createAuthority(user.getRoles()));
 	}
 
-	protected static List<GrantedAuthority> createAuthority(List<UserRole> roles) {
+	private static List<GrantedAuthority> createAuthority(List<UserRole> roles) {
 		List<GrantedAuthority> ret = new ArrayList<>();
-		for(UserRole it : roles) ret.add(new SimpleGrantedAuthority(ROLE_PREFIX+it.getName()));
+		for(UserRole it : roles) ret.add(createAuthority(it));
 		return ret;
+	}
+	
+	private static GrantedAuthority createAuthority(UserRole role) {
+		return new SimpleGrantedAuthority(ROLE_PREFIX+role.getName());
 	}
 }
