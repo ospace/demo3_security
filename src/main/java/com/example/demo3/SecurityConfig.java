@@ -84,6 +84,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().logout()
 			.logoutSuccessUrl("/thankyou.html")
 		.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+		
+//		class Matcher {
+//		   public String name;
+//		   public String roleInfo;
+//		}
+		
+//		for (Matcher matcher : matchers) {
+//	        http.authorizeRequests().antMatchers(matcher.name).access(matcher.roleInfo);
+//	    }
+		//"hasRole('ADMIN') and hasIpAddress('123.123.123.123')"
 	}
 	
 	private Filter ssoFilter() {
