@@ -3,18 +3,18 @@ package com.example.demo3;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+//import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
+//import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Demo3Controller {
 	private static Logger logger = LoggerFactory.getLogger(Demo3Controller.class);
 	
+//	@Autowired
+//	private UserRepository userRepo;
+	
 	@Autowired
-	private UserRepository userRepo;
+	private UserRepositorySqlite userRepo;
 	
 	private BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
 	
@@ -33,9 +36,10 @@ public class Demo3Controller {
 		logger.error("{}[{}]", ex.getClass().getName(), ex.getMessage(), ex);
 	}
 	
-	@RequestMapping("/test") 
+	@RequestMapping("/init") 
 	public String test() {
-		logger.info("test");
+		userRepo.init();
+		logger.info("inited");
 		return "redirect:/";
 	}
 	
@@ -62,6 +66,9 @@ public class Demo3Controller {
 		user.setRoles(Arrays.asList(role));
 		
 		userRepo.add(user);
+		
+		userRepo.add(user);
+		
 		return "redirect:/";
 	}
 	

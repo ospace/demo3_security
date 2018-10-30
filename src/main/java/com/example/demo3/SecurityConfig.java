@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
@@ -29,16 +29,36 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 	
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private UserService userService;
 	
 //	@Autowired
-//	OAuth2ClientContext oauth2ClientContext; 
+//	OAuth2ClientContext oauth2ClientContext;
+	
+//	@Autowired
+//	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+		auth.jdbcAuthentication().dataSource(dataSource)
+			.usersByUsernameQuery("select id as username, pwd as password, 1 as enabled from user where id=?")
+			.authoritiesByUsernameQuery("select id as username, name as authority from user_role where id=?")
+			.groupAuthoritiesByUsername(query)
+			.passwordEncoder(new BCryptPasswordEncoder())
+		.and().inMemoryAuthentication()
+			.withUser("admin").password(new BCryptPasswordEncoder().encode("a")).roles("ADMIN")
+		.and().passwordEncoder(new BCryptPasswordEncoder());
+	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -64,14 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().logout()
 			.logoutSuccessUrl("/thankyou.html")
 		.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
-	}
-	
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
-		auth.inMemoryAuthentication()
-			.withUser("admin").password(new BCryptPasswordEncoder().encode("a")).roles("ADMIN")
-			.and().passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
 	private Filter ssoFilter() {

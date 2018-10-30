@@ -9,4 +9,8 @@ public class UserRole {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String toString() {
+		return String.format("name[%s]", name);
+	}
 }

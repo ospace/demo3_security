@@ -16,7 +16,9 @@ public class SecurityUser extends org.springframework.security.core.userdetails.
 
 	private static List<GrantedAuthority> createAuthority(List<UserRole> roles) {
 		List<GrantedAuthority> ret = new ArrayList<>();
-		for(UserRole it : roles) ret.add(createAuthority(it));
+		if(null != roles) {
+			for(UserRole it : roles) ret.add(createAuthority(it));
+		}
 		return ret;
 	}
 	
