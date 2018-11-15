@@ -19,8 +19,11 @@ public class UserRepositorySqlite {
 	private JdbcTemplate jdbcTemplate;
 	
 	public void init() {
-		jdbcTemplate.update("CREATE TABLE user ( id text PRIMARY KEY, pwd text NOT NULL)");
-		jdbcTemplate.update("CREATE TABLE user_role ( id text, name text NOT NULL)");
+		jdbcTemplate.update("CREATE TABLE user (id TEXT PRIMARY KEY, pwd TEXT NOT NULL)");
+		jdbcTemplate.update("CREATE TABLE user_role (id TEXT, name TEXT NOT NULL)");
+		jdbcTemplate.update("CREATE TABLE groups (id INTEGER PRIMARY KEY, group_name TEXT NOT NULL)");
+		jdbcTemplate.update("CREATE TABLE group_authorities (group_id INTEGER, authority TEXT)");
+		jdbcTemplate.update("CREATE TABLE group_members (id INTEGER PRIMARY KEY, username TEXT, group_id INTEGER)");
 	}
 	
 	public void add(User user) {

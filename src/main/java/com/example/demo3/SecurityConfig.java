@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -51,9 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 		auth.jdbcAuthentication().dataSource(dataSource)
+			//SELECT username,password,enabled FROM users WHERE username = ?
 			.usersByUsernameQuery("select id as username, pwd as password, 1 as enabled from user where id=?")
 			.authoritiesByUsernameQuery("select id as username, name as authority from user_role where id=?")
-//			.groupAuthoritiesByUsername(query)
+			.groupAuthoritiesByUsername("select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id")
 			.passwordEncoder(new BCryptPasswordEncoder())
 		.and().inMemoryAuthentication()
 			.withUser("admin").password(new BCryptPasswordEncoder().encode("a")).roles("ADMIN")
@@ -72,7 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //			.antMatchers("/admin/**").access("hasRole('ADMIN') and hasRole('SUPER')")
 		    .antMatchers("/admin/**").hasRole("ADMIN")		
 //		    .antMatchers("/admin/**").hasAuthority("READ_PRIVILEGE")
-			.antMatchers("/user/**").authenticated()
+//			.antMatchers("/user/**").authenticated()
+//			.antMatchers("/user/**").hasAuthority("READ")
+			.antMatchers("/user/**").hasRole("USER")
 			.antMatchers("/**").permitAll()
 		.and().formLogin()
 			.loginPage("/login.html") // 인증페이지 위치(GET)

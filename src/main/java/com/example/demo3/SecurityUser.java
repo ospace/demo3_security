@@ -25,4 +25,17 @@ public class SecurityUser extends org.springframework.security.core.userdetails.
 	private static GrantedAuthority createAuthority(UserRole role) {
 		return new SimpleGrantedAuthority(ROLE_PREFIX+role.getName());
 	}
+	
+	@Override
+	public boolean isAccountNonExpired() { return true; }
+	
+	@Override
+	public boolean isAccountNonLocked() { return true; }
+	
+	@Override
+	public boolean isCredentialsNonExpired() { return true; }
+	
+	@Override
+	public boolean isEnabled() { return true; }
+	
 }

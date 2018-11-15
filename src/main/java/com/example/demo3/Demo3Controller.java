@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -44,6 +45,7 @@ public class Demo3Controller {
 	}
 	
 	@PostMapping("/hello")
+	@PreAuthorize("hasAuthority('admins')")
 	public String foo() {
 		logger.info("foo");
 		return "redirect:/";
@@ -52,20 +54,9 @@ public class Demo3Controller {
 	@PostMapping("/register")
 	public String register(User user) {
 		user.setPwd(pwdEncoder.encode(user.getPwd()));
+		user.setRoles(Arrays.asList(UserRole.of("BASIC")));
 		
 		logger.info("register : user[{}]", user);
-		
-		UserRole role = new UserRole();
-//		if("admin".equals(user.getId())) {
-//			role.setName("ADMIN");
-//		} else {
-//			role.setName("BASIC");
-//		}
-		role.setName("BASIC");
-		
-		user.setRoles(Arrays.asList(role));
-		
-		userRepo.add(user);
 		
 		userRepo.add(user);
 		
