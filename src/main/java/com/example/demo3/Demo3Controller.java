@@ -27,11 +27,11 @@ public class Demo3Controller {
 //	@Autowired
 //	private UserRepository userRepo;
 	
-	@Autowired
-	private UserRepositorySqlite userRepo;
+//	@Autowired
+//	private UserRepositorySqlite userRepo;
 	
 	@Autowired
-	private UserRepositoryJPA userDao;
+	private UserRepositoryJPA userRepo;
 	
 	private BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
 	
@@ -44,8 +44,8 @@ public class Demo3Controller {
 	public String test() {
 		//userRepo.init();
 		
-		userDao.save(User.of("z", pwdEncoder.encode("z"), null));
-		userDao.save(User.of("y", pwdEncoder.encode("y"), null));
+		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
+		userRepo.save(User.of("y", pwdEncoder.encode("y"), null));
 		
 		logger.info("inited");
 		return "redirect:/";
@@ -66,7 +66,7 @@ public class Demo3Controller {
 		
 		logger.info("register : user[{}]", user);
 		
-		userRepo.add(user);
+		userRepo.save(user);
 		
 		return "redirect:/";
 	}

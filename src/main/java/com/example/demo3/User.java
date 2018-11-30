@@ -1,12 +1,18 @@
 package com.example.demo3;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+//https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
+//https://spring.io/guides/gs/accessing-data-jpa/
 @Entity
-public class User {
+//@EntityListeners
+public class User implements Serializable {
+	private static final long serialVersionUID = -3918283582694134442L;
+	
 	@Id
 	private String id;
 	private String pwd;
