@@ -1,5 +1,8 @@
 package com.example.demo3;
 
+import javax.persistence.Entity;
+
+//@Entity
 public class UserRole {
 	private String name;
 

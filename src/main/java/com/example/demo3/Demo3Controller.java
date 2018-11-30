@@ -30,6 +30,9 @@ public class Demo3Controller {
 	@Autowired
 	private UserRepositorySqlite userRepo;
 	
+	@Autowired
+	private UserRepositoryJPA userDao;
+	
 	private BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
 	
 	@ExceptionHandler({Exception.class})
@@ -39,10 +42,15 @@ public class Demo3Controller {
 	
 	@RequestMapping("/init") 
 	public String test() {
-		userRepo.init();
+		//userRepo.init();
+		
+		userDao.save(User.of("z", pwdEncoder.encode("z"), null));
+		userDao.save(User.of("y", pwdEncoder.encode("y"), null));
+		
 		logger.info("inited");
 		return "redirect:/";
 	}
+	
 	
 	@PostMapping("/hello")
 	@PreAuthorize("hasAuthority('admins')")
