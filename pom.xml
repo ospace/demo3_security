@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.6.RELEASE</version>
+		<version>2.1.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -23,7 +23,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<!-- 5.1.0이상 해줘야 JPA에서 sqlite dialect 지원 -->
-		<hibernate.version>5.1.0.Final</hibernate.version>
+		<!-- <hibernate.version>5.1.0.Final</hibernate.version> -->
 	</properties>
 
 	<dependencies>
@@ -42,11 +42,12 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         
-		<dependency> <!-- oauth2 dependency -->
+        <!-- oauth2 dependency -->
+<!-- 		<dependency> 
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.0.0.RELEASE</version>
-		</dependency>
+		</dependency> -->
 		        
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,10 +55,10 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
+		</dependency> -->
 		
 		<!--  JPA사용 -->
 		<dependency>
@@ -73,6 +74,18 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        
+<!--         <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version> 5.2.1.Final</version>
+		</dependency> -->
 	</dependencies>
 
 	<build>

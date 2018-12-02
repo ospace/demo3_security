@@ -29,9 +29,9 @@ public class UserRepositorySqlite {
 	public void add(User user) {
 		//users.put(user.getId(), user);
 		jdbcTemplate.update("INSERT INTO user(id, pwd) VALUES(?,?)", user.getId(), user.getPwd());
-		for(UserRole it : user.getRoles()) {
-			jdbcTemplate.update("INSERT INTO user_role (id, name) VALUES(?,?)", user.getId(), it.getName());
-		}
+//		for(UserRole it : user.getRoles()) {
+//			jdbcTemplate.update("INSERT INTO user_role (id, name) VALUES(?,?)", user.getId(), it.getName());
+//		}
 	}
 	
 	public User get(String id) {

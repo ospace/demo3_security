@@ -11,7 +11,8 @@ public class SecurityUser extends org.springframework.security.core.userdetails.
 	
 	private static final String ROLE_PREFIX = "ROLE_";
 	public SecurityUser(User user) {
-		super(user.getId(), user.getPwd(), createAuthority(user.getRoles()));
+//		super(user.getId(), user.getPwd(), createAuthority(user.getRoles()));
+		super(user.getId(), user.getPwd(), null);
 	}
 
 	private static List<GrantedAuthority> createAuthority(List<UserRole> roles) {
