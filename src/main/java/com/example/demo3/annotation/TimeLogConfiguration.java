@@ -14,14 +14,13 @@ import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
 import org.springframework.aop.support.ComposablePointcut;
-import org.springframework.aop.support.StaticMethodMatcher;
 import org.springframework.aop.support.annotation.AnnotationClassFilter;
 import org.springframework.aop.support.annotation.AnnotationMethodMatcher;
 import org.springframework.core.annotation.AnnotationUtils;
 
 //@Configuration
-public class AnnotationConfiguration extends AbstractPointcutAdvisor implements IntroductionAdvisor/*, BeanFactoryAware*/ {
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationConfiguration.class);
+public class TimeLogConfiguration extends AbstractPointcutAdvisor implements IntroductionAdvisor/*, BeanFactoryAware*/ {
+	private static final Logger LOGGER = LoggerFactory.getLogger(TimeLogConfiguration.class);
 	
 	private static final long serialVersionUID = -4528767584639351076L;
 //	private BeanFactory beanFactory;
@@ -32,18 +31,27 @@ public class AnnotationConfiguration extends AbstractPointcutAdvisor implements 
 		private final MethodMatcher methodMatcher;
 		private final ClassFilter   classFilter;
 		
-		public AnnotationPointcut() {
-			this.methodMatcher = new AnnotationMethodMatcher(TimeLog.class);
-			this.classFilter = new AnnotationClassFilter(TimeLog.class, true) {
+		public AnnotationPointcut(Class<? extends Annotation> annotationClazz) {
+			this.methodMatcher = new AnnotationMethodMatcher(annotationClazz);
+			this.classFilter = new AnnotationClassFilter(annotationClazz, true) {
 				@Override
 				public boolean matches(Class<?> clazz) {
-//					LOGGER.info("AnnotationClassFilter.matches - {}()", clazz.getSimpleName());
+					boolean ret = super.matches(clazz) || hasAnnotationMethod(clazz, annotationClazz);
+//
+//					boolean ret = super.matches(clazz);
+//					if(ret) {
+//						LOGGER.info("AnnotationClassFilter.found - {}", clazz.getSimpleName());
+//					}
+					return ret;
+				}
+				
+				private boolean hasAnnotationMethod(Class<?> clazz, Class<? extends Annotation> annotaion) {
 					try {
 						boolean found = false;
 						for(Method it : clazz.getMethods()) {
-							Annotation annotation = AnnotationUtils.findAnnotation(it, TimeLog.class);
+							Annotation annotation = AnnotationUtils.findAnnotation(it, annotaion);
 							if(null != annotation) {
-								LOGGER.info("AnnotationClassFilter.found - {}", clazz.getSimpleName());
+//								LOGGER.info("AnnotationClassFilter.found - {}", clazz.getSimpleName());
 								found = true;
 								break;
 							}
@@ -67,7 +75,6 @@ public class AnnotationConfiguration extends AbstractPointcutAdvisor implements 
 		public MethodMatcher getMethodMatcher() {
 			return methodMatcher;
 		}
-		
 	}
 	
 	@PostConstruct
@@ -75,12 +82,12 @@ public class AnnotationConfiguration extends AbstractPointcutAdvisor implements 
 		LOGGER.info("@PostConstruct");
 		 
 //		Pointcut pointcut1 = new AnnotationClassOrMethodPointcut();
-		Pointcut pointcut1 = new AnnotationPointcut();
+		Pointcut pointcut1 = new AnnotationPointcut(TimeLog.class);
 		ComposablePointcut compPointcut = new ComposablePointcut(pointcut1);
 //		compPointcut.union(pointcut1);
 		this.pointcut = compPointcut;
 		
-		AnnotationInterceptor interceptor = new AnnotationInterceptor();
+		TimeLogInterceptor interceptor = new TimeLogInterceptor();
 //		interceptor.setBeanFactory(beanFactory);
 		
 		this.advice = interceptor;

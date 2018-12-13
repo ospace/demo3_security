@@ -7,16 +7,23 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.aop.IntroductionInterceptor;
 
-public class AnnotationInterceptor implements IntroductionInterceptor/*, BeanFactoryAware */{
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationInterceptor.class);
+public class TimeLogInterceptor implements IntroductionInterceptor/*, BeanFactoryAware */{
+	private static final Logger LOGGER = LoggerFactory.getLogger(TimeLogInterceptor.class);
 	
 //	private final StandardEvaluationContext evaluationCtx = new StandardEvaluationContext(); 
 //	private BeanFactory beanFactory;
 	
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		LOGGER.info("invoke : {}", invocation);
-		return invocation.proceed();
+		LOGGER.info("begin - {}", invocation.getStaticPart());
+		
+		long begin = System.currentTimeMillis();
+		Object ret = invocation.proceed();
+		long end = System.currentTimeMillis();
+		
+		LOGGER.info("end   - {} runtime(msec)[{}]", invocation.getStaticPart(), (end-begin));
+		
+		return ret;
 	}
 
 	@Override

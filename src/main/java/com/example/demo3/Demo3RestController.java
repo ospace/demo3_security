@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo3.annotation.TimeLog;
+
 @RestController
 @RequestMapping("/api")
 public class Demo3RestController {
@@ -19,6 +21,7 @@ public class Demo3RestController {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@TimeLog
 	@RequestMapping("/ping")
 	public String ping() {
 		return "pong";

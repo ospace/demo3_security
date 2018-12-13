@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @EnableAspectJAutoProxy(proxyTargetClass = false)
-@Import(AnnotationConfiguration.class)
+@Import(TimeLogConfiguration.class)
 public @interface EnableTimeLog {
 //	boolean proxyTargetClass() default false;
 }
