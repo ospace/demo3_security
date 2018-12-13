@@ -1,6 +1,5 @@
 package com.example.demo3;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,11 +10,8 @@ import org.apache.ibatis.type.Alias;
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
 @Entity
-//@EntityListeners
 @Alias("user")
 public class User {
-	private static final long serialVersionUID = -3918283582694134442L;
-	
 	@Id
 	private String id;
 	private String pwd;

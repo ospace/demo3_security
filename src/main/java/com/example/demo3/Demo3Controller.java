@@ -1,6 +1,6 @@
 package com.example.demo3;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
@@ -15,11 +15,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+//import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo3.annotation.TimeLog;
 
 @Controller
 @RequestMapping("/")
@@ -54,6 +56,7 @@ public class Demo3Controller {
 	}
 	
 	
+	@TimeLog
 	@PostMapping("/hello")
 	@PreAuthorize("hasAuthority('admins')")
 	public String foo() {
@@ -61,6 +64,7 @@ public class Demo3Controller {
 		return "redirect:/";
 	}
 	
+	@TimeLog
 	@PostMapping("/register")
 	public String register(User user) {
 		user.setPwd(pwdEncoder.encode(user.getPwd()));

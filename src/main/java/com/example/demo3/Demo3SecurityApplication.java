@@ -1,26 +1,33 @@
 package com.example.demo3;
 
-import java.util.HashMap;
-import java.util.Map;
+//import java.util.HashMap;
+//import java.util.Map;
+//
+//import javax.sql.DataSource;
 
-import javax.sql.DataSource;
-
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.mybatis.spring.annotation.MapperScan;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+//import org.springframework.boot.context.properties.ConfigurationProperties;
+//import org.springframework.boot.jdbc.DataSourceBuilder;
+//import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+//import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ScopedProxyMode;
 
+import com.example.demo3.annotation.EnableTimeLog;
+
+@EnableTimeLog
 @SpringBootApplication//(scanBasePackages={"com.example.demo3"})
 //@EnableJpaRepositories(basePackages = "com.example.demo3")
 //@EnableJpaRepositories(basePackageClasses = UserRepositoryJPA.class)
 //@EnableJpaRepositories
 //@MapperScan("com.example.demo3")
+//scoped-proxy="interfaces"
+//@ComponentScan(scopedProxy=ScopedProxyMode.INTERFACES)
 public class Demo3SecurityApplication {
 //	private static final String DEFAULT_NAMING_STRATEGY = "org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy";
 //	
