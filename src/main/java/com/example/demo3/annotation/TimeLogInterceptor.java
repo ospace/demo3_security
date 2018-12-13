@@ -15,7 +15,12 @@ public class TimeLogInterceptor implements IntroductionInterceptor/*, BeanFactor
 	
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		LOGGER.info("begin - {}", invocation.getStaticPart());
+		String args = "";
+		for(Object arg : invocation.getArguments()) {
+			if(!args.isEmpty()) args = args.concat(",");
+			args = args.concat(null == arg ? "null" : arg.toString());
+		}
+		LOGGER.info("begin - {} arguments[{}]", invocation.getStaticPart().toString(), args);
 		
 		long begin = System.currentTimeMillis();
 		Object ret = invocation.proceed();

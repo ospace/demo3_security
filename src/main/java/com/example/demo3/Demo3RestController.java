@@ -23,8 +23,8 @@ public class Demo3RestController {
 	
 	@TimeLog
 	@RequestMapping("/ping")
-	public String ping() {
-		return "pong";
+	public String ping(@RequestParam(name="msg", required=false)String msg) {
+		return (null == msg || msg.isEmpty()) ? "pong" : msg;
 	}
 	
 	@RequestMapping("/user/{id}")
