@@ -1,20 +1,27 @@
 package com.example.demo3;
 
+import java.util.Arrays;
+
 //import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 //import org.springframework.security.core.Authentication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 //import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,18 +51,6 @@ public class Demo3Controller {
 		logger.error("{}[{}]", ex.getClass().getName(), ex.getMessage(), ex);
 	}
 	
-	@RequestMapping("/init") 
-	public String test() {
-		//userRepo.init();
-		
-		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
-		userRepo.save(User.of("y", pwdEncoder.encode("y"), null));
-		
-		logger.info("inited");
-		return "redirect:/";
-	}
-	
-	
 	@TimeLog
 	@PostMapping("/hello")
 	@PreAuthorize("hasAuthority('admins')")
@@ -68,7 +63,7 @@ public class Demo3Controller {
 	@PostMapping("/register")
 	public String register(User user) {
 		user.setPwd(pwdEncoder.encode(user.getPwd()));
-//		user.setRoles(Arrays.asList(UserRole.of("BASIC")));
+		user.setRoles(Arrays.asList(UserRole.of("BASIC")));
 		
 		logger.info("register : user[{}]", user);
 		
@@ -77,20 +72,20 @@ public class Demo3Controller {
 		return "redirect:/";
 	}
 	
-//	@GetMapping("/login")
-//	public String loginFrom(HttpServletRequest req) {
-//		String referer = req.getHeader("Referer");
-//		req.getSession().setAttribute("prevPage", referer);
-//		logger.info("login : Referer[{}]", referer);
-//		return "login";
-//	}
+	@GetMapping("/login")
+	public String loginFrom(HttpServletRequest req) {
+		String referer = req.getHeader("Referer");
+		req.getSession().setAttribute("prevPage", referer);
+		logger.info("login : Referer[{}]", referer);
+		return "login";
+	}
 	
-//	@GetMapping("/logout")
-//	public String logout(HttpServletRequest req, HttpServletResponse res) {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//	    if (auth != null){    
-//	        new SecurityContextLogoutHandler().logout(req, res, auth);
-//	    }
-//		return "redirect:/";
-//	}
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest req, HttpServletResponse res) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(req, res, auth);
+	    }
+		return "redirect:/";
+	}
 }

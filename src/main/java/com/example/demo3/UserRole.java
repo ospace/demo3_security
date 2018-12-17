@@ -1,9 +1,14 @@
 package com.example.demo3;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class UserRole {
+	@Id
+	@GeneratedValue
+	private Long id;
 	private String name;
 
 	public static UserRole of(String name) {
@@ -12,6 +17,14 @@ public class UserRole {
 		return role;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
