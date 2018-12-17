@@ -3,6 +3,7 @@ package com.example.demo3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,7 @@ public class Demo3RestController {
 	}
 	
 	@RequestMapping("/user/{id}")
+	@Retryable(value = { Exception.class }, maxAttempts = 2)
 	public User getUser(@PathVariable("id")String id) {
 		return userMapper.findById(id);
 	}
