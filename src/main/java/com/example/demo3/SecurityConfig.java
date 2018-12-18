@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Arrays;
+
 //import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 //import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 //import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
@@ -46,17 +49,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
 	
+//	@Autowired
+//	private UserRepositoryJPA userRepo;
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
+//		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("BASIC"))));
+//		userRepo.save(User.of("y", pwdEncoder.encode("y"), Arrays.asList(UserRole.of("ADMIN"))));
+		
 //		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 		auth.jdbcAuthentication().dataSource(dataSource)
 			//SELECT username,password,enabled FROM users WHERE username = ?
 			.usersByUsernameQuery("select id as username, pwd as password, 1 as enabled from user where id=?")
 			.authoritiesByUsernameQuery("select id as username, name as authority from user_role where id=?")
 			.groupAuthoritiesByUsername("select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id")
-			.passwordEncoder(new BCryptPasswordEncoder())
+			.passwordEncoder(pwdEncoder)
 		.and().inMemoryAuthentication()
-			.withUser("admin").password(new BCryptPasswordEncoder().encode("a")).roles("ADMIN")
+			.withUser("admin").password(pwdEncoder.encode("a")).roles("ADMIN")
 		.and().passwordEncoder(new BCryptPasswordEncoder());
 	}
 	

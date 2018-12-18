@@ -6,7 +6,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import org.apache.ibatis.type.Alias;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
@@ -15,11 +16,13 @@ import org.apache.ibatis.type.Alias;
 //http://www.java2s.com/Tutorial/Java/0355__JPA/OneToManyListCollection.htm
 
 @Entity
-@Alias("user")
+//@Alias("user")
 public class User {
 	@Id
 	private String id;
 	private String pwd;
+	
+	@NotFound(action = NotFoundAction.IGNORE)
 	@ElementCollection
 	private List<UserRole> roles;
 	// 자동으로 현재 엔티티명와 속성명을 합친 USER_ROLES 테이블을 검색

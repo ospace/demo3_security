@@ -32,7 +32,8 @@ public class Demo3RestController {
 	
 	@RequestMapping("/init") 
 	public void init() {
-		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("BASIC"))));
+//		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("BASIC"))));
+		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
 		userRepo.save(User.of("y", pwdEncoder.encode("y"), Arrays.asList(UserRole.of("ADMIN"))));
 		
 		logger.info("inited");
