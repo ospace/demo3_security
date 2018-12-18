@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -22,8 +23,9 @@ public class User {
 	private String id;
 	private String pwd;
 	
-	@NotFound(action = NotFoundAction.IGNORE)
+//	@NotFound(action = NotFoundAction.IGNORE)
 	@ElementCollection
+	@JoinColumn(name="id")
 	private List<UserRole> roles;
 	// 자동으로 현재 엔티티명와 속성명을 합친 USER_ROLES 테이블을 검색
 	// 테이블을 변경하고 싶다면 @CollectionTable(name="foo")를 사용
@@ -58,8 +60,9 @@ public class User {
 	}
 	
 	public String toString() {
-		return String.format("id[%s] pwd[%s]", id, pwd);
+		return "id["+id+"] pwd["+pwd+"] roles["+roles+"]";
 	}
+	
 }
 
 
