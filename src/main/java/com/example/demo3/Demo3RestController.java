@@ -25,6 +25,8 @@ public class Demo3RestController {
 	@Autowired
 	private UserRepositoryJPA userRepo;
 	
+	@Autowired(required=false)
+	private FooComponent foo;
 //	@Autowired
 //	private UserMapper userMapper;
 	
