@@ -2,7 +2,7 @@ package com.example.demo3;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class FooComponent {
 	
 	FooComponent() {

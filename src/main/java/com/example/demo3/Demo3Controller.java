@@ -72,13 +72,13 @@ public class Demo3Controller {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/login")
-	public String loginFrom(HttpServletRequest req) {
-		String referer = req.getHeader("Referer");
-		req.getSession().setAttribute("prevPage", referer);
-		logger.info("login : Referer[{}]", referer);
-		return "login";
-	}
+//	@PostMapping("/login")
+//	public String loginFrom(HttpServletRequest req) {
+//		String referer = req.getHeader("Referer");
+//		req.getSession().setAttribute("prevPage", referer);
+//		logger.info("login : Referer[{}]", referer);
+//		return "login";
+//	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpServletRequest req, HttpServletResponse res) {

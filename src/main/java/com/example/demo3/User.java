@@ -2,13 +2,12 @@ package com.example.demo3;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import javax.persistence.Table;
 
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
@@ -16,16 +15,16 @@ import org.hibernate.annotations.NotFoundAction;
 //https://antoniogoncalves.org/2009/11/01/mapping-and-querying-a-list-of-primitive-types-with-jpa-2-0/
 //http://www.java2s.com/Tutorial/Java/0355__JPA/OneToManyListCollection.htm
 
-@Entity
-//@Alias("user")
+//@Entity
+@Table(name = "users")
 public class User {
 	@Id
 	private String id;
 	private String pwd;
 	
-//	@NotFound(action = NotFoundAction.IGNORE)
 	@ElementCollection
-	@JoinColumn(name="id")
+	@CollectionTable(name="user_roles", joinColumns={@JoinColumn(name="id")})
+//	@CollectionTable(joinColumns={@JoinColumn(name="id")})
 	private List<UserRole> roles;
 	// 자동으로 현재 엔티티명와 속성명을 합친 USER_ROLES 테이블을 검색
 	// 테이블을 변경하고 싶다면 @CollectionTable(name="foo")를 사용
@@ -43,18 +42,23 @@ public class User {
 	public String getId() {
 		return id;
 	}
+	
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 	public String getPwd() {
 		return pwd;
 	}
+	
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
+	
 	public List<UserRole> getRoles() {
 		return roles;
 	}
+	
 	public void setRoles(List<UserRole> roles) {
 		this.roles = roles;
 	}
