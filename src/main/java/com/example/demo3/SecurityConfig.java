@@ -55,6 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private UserRepositoryJPA userRepo;
 	
 	@Autowired
+	private GroupRepositoryJPA groupRepo;
+	
+	@Autowired
+	private GroupUserRepositoryJPA groupUserRepo;
+	
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		init();
 		
@@ -65,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//SELECT username,password,enabled FROM users WHERE username = ?
 			.usersByUsernameQuery("select id as username, pwd as password, 1 as enabled from users where id=?")
 			.authoritiesByUsernameQuery("select id as username, name as authority from user_roles where id=?")
-//			.groupAuthoritiesByUsername("select g.id, g.group_name, ga.authority from groups g, group_members gm, group_authorities ga where gm.username = ? and g.id = ga.group_id and g.id = gm.group_id")
+			.groupAuthoritiesByUsername("select g.id, g.group_name, gr.authority from groups g, group_users gu, group_roles gr where gu.username = ? and g.id = gr.id and g.id = gu.group_id")
 			.passwordEncoder(pwdEncoder)
 //		.and().inMemoryAuthentication()
 //			.withUser("a").password(pwdEncoder.encode("a")).roles("ADMIN")
@@ -76,11 +82,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private void init() {
 		logger.info("initializing -----------------------------------------------------");
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
-//		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("SpacePrivilege READ ClassFilter eg.cinema.Movie, SpacePrivilege READ ClassFilter eg.cinema.Seat"))));
-		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("ROLE_ADMIN"), UserRole.of("ROLE_USER"))));
-		userRepo.save(User.of("a", pwdEncoder.encode("a"), Arrays.asList(UserRole.of("ROLE_ADMIN"))));
-		userRepo.save(User.of("u", pwdEncoder.encode("u"), Arrays.asList(UserRole.of("ROLE_USER"))));
 		
+		Group g1 = Group.of("ADMIN", Arrays.asList(GroupRole.of("ROLE_ADMIN"), GroupRole.of("ROLE_USER")));
+		groupRepo.save(g1);
+		Group g2 = Group.of("BASIC", Arrays.asList(GroupRole.of("ROLE_USER")));
+		groupRepo.save(g2);
+		
+		logger.info("group1 : {}", g1);
+		logger.info("group2 : {}", g2);
+		
+//		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("SpacePrivilege READ ClassFilter eg.cinema.Movie, SpacePrivilege READ ClassFilter eg.cinema.Seat"))));
+//		User u1 = User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("ROLE_ADMIN"), UserRole.of("ROLE_USER")));
+		User u1 = User.of("z", pwdEncoder.encode("z"), null);
+		userRepo.save(u1);
+		
+//		User u2 = User.of("a", pwdEncoder.encode("a"), Arrays.asList(UserRole.of("ROLE_ADMIN")));
+		User u2 = User.of("a", pwdEncoder.encode("a"), null);
+		userRepo.save(u2);
+		
+//		User u3 = User.of("u", pwdEncoder.encode("u"), Arrays.asList(UserRole.of("ROLE_USER")));
+		User u3 = User.of("u", pwdEncoder.encode("u"), null);
+		userRepo.save(u3);
+		
+		groupUserRepo.save(GroupUser.of(u1.getId(), g2));
+		groupUserRepo.save(GroupUser.of(u2.getId(), g1));
+		groupUserRepo.save(GroupUser.of(u3.getId(), g1));
+
 		
 		logger.info("initialized  -----------------------------------------------------");
 	}

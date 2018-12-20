@@ -7,7 +7,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
@@ -15,8 +16,7 @@ import javax.persistence.Table;
 //https://antoniogoncalves.org/2009/11/01/mapping-and-querying-a-list-of-primitive-types-with-jpa-2-0/
 //http://www.java2s.com/Tutorial/Java/0355__JPA/OneToManyListCollection.htm
 
-//@Entity
-@Table(name = "users")
+@Entity(name = "users")
 public class User {
 	@Id
 	private String id;
@@ -54,7 +54,7 @@ public class User {
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
 	}
-	
+
 	public List<UserRole> getRoles() {
 		return roles;
 	}
