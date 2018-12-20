@@ -2,6 +2,8 @@ package com.example.demo3;
 
 import java.util.Arrays;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +27,23 @@ public class Demo3RestController {
 	@Autowired
 	private UserRepositoryJPA userRepo;
 	
-//	@Autowired(required=false)
-//	private FooComponent foo;
+	@Autowired(required=false)
+	private FooComponent foo;
 //	@Autowired
 //	private UserMapper userMapper;
 	
 	private BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
 	
-	@RequestMapping("/init") 
-	public void init() {
+	@PostConstruct
+//	@RequestMapping("/init") 
+	private void init() {
 //		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("BASIC"))));
-		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
-		userRepo.save(User.of("y", pwdEncoder.encode("y"), Arrays.asList(UserRole.of("ADMIN"))));
+//		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
+//		userRepo.save(User.of("y", pwdEncoder.encode("y"), Arrays.asList(UserRole.of("ADMIN"))));
+//		
+//		logger.info("inited");
+		logger.info("FooComponent : {}", (null==foo?"disable":"enable"));
 		
-		logger.info("inited");
 	}
 	
 	@TimeLog
