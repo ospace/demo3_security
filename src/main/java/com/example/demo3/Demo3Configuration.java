@@ -7,6 +7,8 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+//https://www.freeism.co.kr/wp/archives/1667
+
 @PropertySources({
 	@PropertySource("classpath:properties/default.properties"),
 	@PropertySource("classpath:properties/messages_${spring.profiles.active:na}.properties")

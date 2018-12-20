@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,9 @@ import com.example.demo3.annotation.TimeLog;
 @RequestMapping("/api")
 public class Demo3RestController {
 	private static Logger logger = LoggerFactory.getLogger(Demo3RestController.class);
+	
+	@Autowired
+	private Demo3Configuration config;
 	
 	@Autowired
 	private UserRepositoryJPA userRepo;
@@ -43,7 +48,7 @@ public class Demo3RestController {
 //		
 //		logger.info("inited");
 		logger.info("FooComponent : {}", (null==foo?"disable":"enable"));
-		
+		logger.info(">> name : {}, {}", config.getName(), config.getName2());
 	}
 	
 	@TimeLog
