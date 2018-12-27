@@ -1,5 +1,7 @@
 package com.example.demo3;
 
+import org.springframework.beans.factory.annotation.Value;
+
 //import java.util.HashMap;
 //import java.util.Map;
 //
@@ -26,14 +28,16 @@ import com.example.demo3.annotation.EnableTimeLog;
 //@MapperScan("com.example.demo3")
 //scoped-proxy="interfaces"
 //@ComponentScan(scopedProxy=ScopedProxyMode.INTERFACES)
-public class Demo3SecurityApplication {
+public class Demo3Application {
 //	private static final String DEFAULT_NAMING_STRATEGY = "org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy";
 //	
 //	@Autowired
 //	private DataSource dataSource;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(Demo3SecurityApplication.class, args);
+//		System.setProperty("spring.profiles.active", "DEV");
+		
+		SpringApplication.run(Demo3Application.class, args);
 	}
 	
 //	public EntityManagerFactory entityManagerFactory() {

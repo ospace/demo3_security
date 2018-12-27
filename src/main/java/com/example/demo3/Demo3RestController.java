@@ -26,6 +26,8 @@ import com.example.demo3.annotation.TimeLog;
 public class Demo3RestController {
 	private static Logger logger = LoggerFactory.getLogger(Demo3RestController.class);
 	
+//	private Demo3Configuration2 config2 = Demo3Configuration2.instance();
+	
 	@Autowired
 	private Demo3Configuration config;
 	
@@ -49,6 +51,9 @@ public class Demo3RestController {
 //		logger.info("inited");
 		logger.info("FooComponent : {}", (null==foo?"disable":"enable"));
 		logger.info(">> name : {}, {}", config.getName(), config.getName2());
+		
+		Demo3Configuration2 config2 = Demo3Configuration2.instance();
+		logger.info("Demo3Configuration2 config : {}", config2.getPropertiesFile());
 	}
 	
 	@TimeLog
