@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.boot.context.ApplicationPidFileWriter;
 
 import com.example.demo3.annotation.EnableTimeLog;
 
@@ -37,7 +38,9 @@ public class Demo3Application {
 	public static void main(String[] args) {
 //		System.setProperty("spring.profiles.active", "DEV");
 		
-		SpringApplication.run(Demo3Application.class, args);
+		SpringApplication springApplication = new SpringApplication(Demo3Application.class);
+		springApplication.addListeners(new ApplicationPidFileWriter("app.pid"));
+		springApplication.run(args);
 	}
 	
 //	public EntityManagerFactory entityManagerFactory() {

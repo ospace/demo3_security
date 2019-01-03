@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class Demo3Configuration2 {
 	private static Logger logger = LoggerFactory.getLogger(Demo3Configuration2.class);
-	private static Demo3Configuration2 instance = new Demo3Configuration2();
+	private static Demo3Configuration2 instance = null;
 	
 	private String propertiesFile = "properties/default.properties";	
 	private Properties properties = new Properties();
@@ -35,8 +35,8 @@ public class Demo3Configuration2 {
 			logger.error("failed properties[{}]", propertiesFile, e);
 		}
 		
-		logger.info("inited - profile[{}]", profile);
-		logger.info("inited - ENV:profile[{}]", System.getProperty("spring.profiles.active"));
+		Demo3Configuration2.instance = this;
+		logger.info("inited - profile[{}] ENV:profile[{}]", profile, System.getProperty("spring.profiles.active"));
 	}
 	
 	public String getPropertiesFile() {
