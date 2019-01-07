@@ -7,8 +7,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+//import javax.persistence.ManyToOne;
+//import javax.persistence.OneToMany;
 
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
@@ -64,7 +64,7 @@ public class User {
 	}
 	
 	public String toString() {
-		return "id["+id+"] pwd["+pwd+"] roles["+roles+"]";
+		return "id["+id+"] pwd["+pwd+"] roles"+roles+"";
 	}
 	
 }

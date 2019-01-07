@@ -1,14 +1,13 @@
 package com.example.demo3;
 
-import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+//import org.springframework.context.annotation.PropertySource;
+//import org.springframework.context.annotation.PropertySources;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
