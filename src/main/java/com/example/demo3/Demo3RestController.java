@@ -1,14 +1,14 @@
 package com.example.demo3;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+//import org.springframework.context.annotation.PropertySource;
+//import org.springframework.context.annotation.PropertySources;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +33,12 @@ public class Demo3RestController {
 	
 	@Autowired
 	private UserRepositoryJPA userRepo;
+	
+	@Autowired
+	private GroupUserRepositoryJPA groupUserRepo;
+	
+	@Autowired
+	private DepartmentRepositoryJPA deptRepo;
 	
 	@Autowired(required=false)
 	private FooComponent foo;
@@ -75,6 +81,17 @@ public class Demo3RestController {
 		user.setPwd(pwd);
 		userRepo.save(user);
 		
+	}
+	
+	@RequestMapping("/groupUser/{id}")
+	@Retryable(value = { Exception.class }, maxAttempts = 2)
+	public GroupUser getGroupUser(@PathVariable("id")String id) {
+		return groupUserRepo.findById(Integer.parseInt(id)).get();
+	}
+	
+	@RequestMapping("/project/{id}")
+	public Department getProject(@PathVariable("id")String id) {
+		return deptRepo.findById(Integer.parseInt(id)).get();
 	}
 	
 	@TimeLog

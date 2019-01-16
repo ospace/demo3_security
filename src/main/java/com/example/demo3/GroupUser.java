@@ -1,9 +1,14 @@
 package com.example.demo3;
 
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity(name="group_users")
@@ -16,6 +21,13 @@ public class GroupUser {
 	
 	@ManyToOne
 	private Group group;
+	
+	@ElementCollection
+	@CollectionTable(name="user_addrs", joinColumns={@JoinColumn(name="id")})
+	private List<Address> addresses;
+	
+	@ElementCollection
+	private List<String> hobbies;
 
 	public static GroupUser of(String username, Group group) {
 		GroupUser ret = new GroupUser();
@@ -47,4 +59,21 @@ public class GroupUser {
 	public void setGroup(Group group) {
 		this.group = group;
 	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
+	public List<String> getHobbies() {
+		return hobbies;
+	}
+
+	public void setHobbies(List<String> hobbies) {
+		this.hobbies = hobbies;
+	}
+	
 }
