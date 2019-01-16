@@ -73,7 +73,7 @@ public class User {
 	}
 	
 	public String toString() {
-		return "id["+id+"] pwd["+pwd+"] roles["+roles+"]";
+		return "id["+id+"] pwd["+pwd+"] roles"+roles+"";
 	}
 	
 }

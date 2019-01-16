@@ -53,6 +53,6 @@ public class Group {
 	}
 	
 	public String toString() {
-		return "id["+id+"] group_name["+group_name+"] roles[" + (null == roles?"":roles.toString()) +"]";
+		return "id["+id+"] group_name["+group_name+"] roles" + (null == roles?"[]":roles.toString());
 	}
 }
