@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo3.annotation.TimeLog;
+import com.example.demo3.entity.User;
+import com.example.demo3.entity.UserRole;
 
 @Controller
 @RequestMapping("/")

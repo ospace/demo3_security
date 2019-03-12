@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.example.demo3.entity.User;
+
 @Component
 public class UserRepository {
 	private Map<String, User> users = new HashMap<>();

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo3.annotation.TimeLog;
+import com.example.demo3.entity.Department;
+import com.example.demo3.entity.GroupUser;
+import com.example.demo3.entity.User;
 
 //https://www.baeldung.com/spring-security-acl
 

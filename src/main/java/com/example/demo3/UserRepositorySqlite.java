@@ -7,6 +7,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import com.example.demo3.entity.User;
+import com.example.demo3.entity.UserRole;
+
 //http://asfirstalways.tistory.com/299
 //https://docs.spring.io/spring-security/site/docs/4.0.x/reference/html/appendix-schema.html
 /* 화면표시(CLI mode): https://www.sqlite.org/cli.html

@@ -12,6 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.example.demo3.entity.Group;
+import com.example.demo3.entity.GroupRole;
+import com.example.demo3.entity.GroupUser;
+import com.example.demo3.entity.User;
+
 import java.util.Arrays;
 
 //import org.springframework.security.oauth2.client.OAuth2RestTemplate;

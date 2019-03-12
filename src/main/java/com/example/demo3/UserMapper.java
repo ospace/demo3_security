@@ -2,6 +2,8 @@ package com.example.demo3;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo3.entity.User;
+
 @Mapper
 public interface UserMapper {
 	public User findById(String id);

@@ -6,6 +6,9 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.example.demo3.entity.User;
+import com.example.demo3.entity.UserRole;
+
 public class SecurityUser extends org.springframework.security.core.userdetails.User {
 	private static final long serialVersionUID = 6534003199197032736L;
 	

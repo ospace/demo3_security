@@ -1,13 +1,13 @@
-package com.example.demo3;
+package com.example.demo3.entity;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class EmbedUserRole {
+public class UserRole {
 	private String name;
 
-	public static EmbedUserRole of(String name) {
-		EmbedUserRole role = new EmbedUserRole();
+	public static UserRole of(String name) {
+		UserRole role = new UserRole();
 		role.setName(name);
 		return role;
 	}
