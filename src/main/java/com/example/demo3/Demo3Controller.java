@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo3.annotation.TimeLog;
 import com.example.demo3.entity.User;
 import com.example.demo3.entity.UserRole;
+import com.example.demo3.repository.UserRepositoryJPA;
 
 @Controller
 @RequestMapping("/")

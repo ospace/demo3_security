@@ -16,6 +16,9 @@ import com.example.demo3.entity.Group;
 import com.example.demo3.entity.GroupRole;
 import com.example.demo3.entity.GroupUser;
 import com.example.demo3.entity.User;
+import com.example.demo3.repository.GroupRepositoryJPA;
+import com.example.demo3.repository.GroupUserRepositoryJPA;
+import com.example.demo3.repository.UserRepositoryJPA;
 
 import java.util.Arrays;
 

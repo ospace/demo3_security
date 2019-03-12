@@ -21,6 +21,9 @@ import com.example.demo3.annotation.TimeLog;
 import com.example.demo3.entity.Department;
 import com.example.demo3.entity.GroupUser;
 import com.example.demo3.entity.User;
+import com.example.demo3.repository.DepartmentRepositoryJPA;
+import com.example.demo3.repository.GroupUserRepositoryJPA;
+import com.example.demo3.repository.UserRepositoryJPA;
 
 //https://www.baeldung.com/spring-security-acl
 

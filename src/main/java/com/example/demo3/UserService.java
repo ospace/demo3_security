@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.example.demo3.entity.User;
 import com.example.demo3.entity.UserRole;
+import com.example.demo3.repository.UserRepositorySqlite;
 
 //@Service
 public class UserService {
