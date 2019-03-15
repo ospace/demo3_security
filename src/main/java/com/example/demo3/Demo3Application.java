@@ -10,7 +10,9 @@ package com.example.demo3;
 //import org.mybatis.spring.annotation.MapperScan;
 //import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 //import org.springframework.boot.jdbc.DataSourceBuilder;
 //import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -29,6 +31,9 @@ import com.example.demo3.annotation.EnableTimeLog;
 //@MapperScan("com.example.demo3")
 //scoped-proxy="interfaces"
 //@ComponentScan(scopedProxy=ScopedProxyMode.INTERFACES)
+@EnableAutoConfiguration(exclude = {
+		MongoAutoConfiguration.class	
+})
 public class Demo3Application {
 //	private static final String DEFAULT_NAMING_STRATEGY = "org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy";
 //	
