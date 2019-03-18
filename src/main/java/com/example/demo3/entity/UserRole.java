@@ -2,6 +2,9 @@ package com.example.demo3.entity;
 
 import javax.persistence.Embeddable;
 
+/*
+ * 사용자별로 할당된 롤를 관리
+ */
 @Embeddable
 public class UserRole {
 	private String name;

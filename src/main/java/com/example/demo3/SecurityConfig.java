@@ -1,25 +1,5 @@
 package com.example.demo3;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
-//import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.example.demo3.entity.Group;
-import com.example.demo3.entity.GroupRole;
-import com.example.demo3.entity.GroupUser;
-import com.example.demo3.entity.User;
-import com.example.demo3.repository.GroupRepositoryJPA;
-import com.example.demo3.repository.GroupUserRepositoryJPA;
-import com.example.demo3.repository.UserRepositoryJPA;
-
 import java.util.Arrays;
 
 //import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -40,6 +20,25 @@ import java.util.Arrays;
 //import javax.servlet.ServletResponse;
 //import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+//import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.example.demo3.entity.Group;
+import com.example.demo3.entity.GroupRole;
+import com.example.demo3.entity.User;
+import com.example.demo3.entity.UserRole;
+import com.example.demo3.repository.GroupRepositoryJPA;
+import com.example.demo3.repository.UserRepositoryJPA;
 
 //https://docs.gigaspaces.com/xap/10.0/security/authenticating-against-a-database.html
 
@@ -66,9 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private GroupRepositoryJPA groupRepo;
 	
 	@Autowired
-	private GroupUserRepositoryJPA groupUserRepo;
-	
-	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		init();
 		
@@ -79,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//SELECT username,password,enabled FROM users WHERE username = ?
 			.usersByUsernameQuery("select id as username, pwd as password, 1 as enabled from users where id=?")
 			.authoritiesByUsernameQuery("select id as username, name as authority from user_roles where id=?")
-			.groupAuthoritiesByUsername("select g.id, g.group_name, gr.authority from groups g, group_users gu, group_roles gr where gu.username = ? and g.id = gr.id and g.id = gu.group_id")
+			.groupAuthoritiesByUsername("select g.id, g.group_name, gr.authority from groups g, users u, group_roles gr where u.id = ? and g.id = gr.id and g.id = u.group_id")
 			.passwordEncoder(pwdEncoder)
 //		.and().inMemoryAuthentication()
 //			.withUser("a").password(pwdEncoder.encode("a")).roles("ADMIN")
@@ -88,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	private void init() {
-		logger.info("initializing -----------------------------------------------------");
+		logger.info("- initializing -----------------------------------------------------");
 		BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder();
 		
 		Group g1 = Group.of("ADMIN", Arrays.asList(GroupRole.of("ROLE_ADMIN"), GroupRole.of("ROLE_USER")));
@@ -101,23 +97,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 //		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("SpacePrivilege READ ClassFilter eg.cinema.Movie, SpacePrivilege READ ClassFilter eg.cinema.Seat"))));
 //		User u1 = User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("ROLE_ADMIN"), UserRole.of("ROLE_USER")));
-		User u1 = User.of("z", pwdEncoder.encode("z"), null);
+		User u1 = User.of("z", pwdEncoder.encode("z"), g2);
 		userRepo.save(u1);
+		//groupUserRepo.save(GroupUser.of(u1.getId(), g2));
 		
 //		User u2 = User.of("a", pwdEncoder.encode("a"), Arrays.asList(UserRole.of("ROLE_ADMIN")));
-		User u2 = User.of("a", pwdEncoder.encode("a"), null);
+		User u2 = User.of("a", pwdEncoder.encode("a"), g1);
 		userRepo.save(u2);
+//		groupUserRepo.save(GroupUser.of(u2.getId(), g1));
 		
 //		User u3 = User.of("u", pwdEncoder.encode("u"), Arrays.asList(UserRole.of("ROLE_USER")));
-		User u3 = User.of("u", pwdEncoder.encode("u"), null);
+		User u3 = User.of("u", pwdEncoder.encode("u"), g1);
 		userRepo.save(u3);
+//		groupUserRepo.save(GroupUser.of(u3.getId(), g1));
 		
-		groupUserRepo.save(GroupUser.of(u1.getId(), g2));
-		groupUserRepo.save(GroupUser.of(u2.getId(), g1));
-		groupUserRepo.save(GroupUser.of(u3.getId(), g1));
-
+		User u4 = User.of("o", pwdEncoder.encode("o"), Arrays.asList(UserRole.of("ROLE_USER")));
+		userRepo.save(u4);
 		
-		logger.info("initialized  -----------------------------------------------------");
+		logger.info("- initialized  -----------------------------------------------------");
 	}
 	
 	@Override

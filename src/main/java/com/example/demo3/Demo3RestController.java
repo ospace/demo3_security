@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo3.annotation.TimeLog;
 import com.example.demo3.entity.Department;
-import com.example.demo3.entity.GroupUser;
 import com.example.demo3.entity.User;
 import com.example.demo3.repository.DepartmentRepositoryJPA;
-import com.example.demo3.repository.GroupUserRepositoryJPA;
 import com.example.demo3.repository.UserRepositoryJPA;
 
 //https://www.baeldung.com/spring-security-acl
@@ -39,9 +37,6 @@ public class Demo3RestController {
 	
 	@Autowired
 	private UserRepositoryJPA userRepo;
-	
-	@Autowired
-	private GroupUserRepositoryJPA groupUserRepo;
 	
 	@Autowired
 	private DepartmentRepositoryJPA deptRepo;
@@ -87,12 +82,6 @@ public class Demo3RestController {
 		user.setPwd(pwd);
 		userRepo.save(user);
 		
-	}
-	
-	@RequestMapping("/groupUser/{id}")
-	@Retryable(value = { Exception.class }, maxAttempts = 2)
-	public GroupUser getGroupUser(@PathVariable("id")String id) {
-		return groupUserRepo.findById(Integer.parseInt(id)).get();
 	}
 	
 	@RequestMapping("/project/{id}")

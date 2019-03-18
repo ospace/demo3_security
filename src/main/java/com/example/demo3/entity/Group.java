@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 @Entity(name = "groups")
 public class Group {
 	@Id
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE) //다른 테이블과 시쿼스 공유됨
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String group_name;
