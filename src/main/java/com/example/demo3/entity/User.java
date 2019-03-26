@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 /*
  * 일반 사용자 정보로 사용자 식별 및 패스워드 관리
  */
+//@Entity(name = "users")
 @Entity(name = "users")
 public class User {
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE) //다른 테이블과 시쿼스 공유됨
@@ -30,7 +31,7 @@ public class User {
 	private String name;
 	
 	@ElementCollection
-	@CollectionTable(name="user_roles", joinColumns={@JoinColumn(name="id")})
+	//@CollectionTable(name="user_roles", joinColumns={@JoinColumn(name="id")})
 //	@CollectionTable(joinColumns={@JoinColumn(name="id")})
 	private List<UserRole> roles;
 	// 자동으로 현재 엔티티명와 속성명을 합친 USER_ROLES 테이블을 검색
@@ -38,14 +39,14 @@ public class User {
 	// User 테이블에는 사용자 정보가 Roles 테이블은 역할 정보가 저장됨
 	// Roles 테이블에 USER_ID 외래키가 포함됨
 	
-	@ManyToOne
-	private Group group;
+//	@ManyToOne
+//	private Group group;
 	
 	//@ManyToOne
 	//private Department department;
 	
-	@ElementCollection
-	private List<String> hobbies;
+//	@ElementCollection
+//	private List<String> hobbies;
 	
 	public static User of(String id, String pwd, List<UserRole> roles) {
 		User ret = new User();
@@ -59,7 +60,7 @@ public class User {
 		User ret = new User();
 		ret.setId(id);
 		ret.setPwd(pwd);
-		ret.setGroup(group);
+		//ret.setGroup(group);
 		return ret;
 	}
 	
@@ -95,21 +96,21 @@ public class User {
 		this.roles = roles;
 	}
 	
-	public Group getGroup() {
-		return group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
-	public List<String> getHobbies() {
-		return hobbies;
-	}
-
-	public void setHobbies(List<String> hobbies) {
-		this.hobbies = hobbies;
-	}
+//	public Group getGroup() {
+//		return group;
+//	}
+//
+//	public void setGroup(Group group) {
+//		this.group = group;
+//	}
+//
+//	public List<String> getHobbies() {
+//		return hobbies;
+//	}
+//
+//	public void setHobbies(List<String> hobbies) {
+//		this.hobbies = hobbies;
+//	}
 
 	public String toString() {
 		return "id["+id+"] pwd["+pwd+"] roles["+roles+"]";

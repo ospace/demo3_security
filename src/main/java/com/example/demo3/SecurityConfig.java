@@ -96,20 +96,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		logger.info("group2 : {}", g2);
 		
 //		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("SpacePrivilege READ ClassFilter eg.cinema.Movie, SpacePrivilege READ ClassFilter eg.cinema.Seat"))));
-//		User u1 = User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("ROLE_ADMIN"), UserRole.of("ROLE_USER")));
 		User u1 = User.of("z", pwdEncoder.encode("z"), g2);
 		userRepo.save(u1);
-		//groupUserRepo.save(GroupUser.of(u1.getId(), g2));
 		
-//		User u2 = User.of("a", pwdEncoder.encode("a"), Arrays.asList(UserRole.of("ROLE_ADMIN")));
 		User u2 = User.of("a", pwdEncoder.encode("a"), g1);
 		userRepo.save(u2);
-//		groupUserRepo.save(GroupUser.of(u2.getId(), g1));
 		
-//		User u3 = User.of("u", pwdEncoder.encode("u"), Arrays.asList(UserRole.of("ROLE_USER")));
 		User u3 = User.of("u", pwdEncoder.encode("u"), g1);
 		userRepo.save(u3);
-//		groupUserRepo.save(GroupUser.of(u3.getId(), g1));
 		
 		User u4 = User.of("o", pwdEncoder.encode("o"), Arrays.asList(UserRole.of("ROLE_USER")));
 		userRepo.save(u4);
