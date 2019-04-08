@@ -1,5 +1,7 @@
 package com.example.demo3;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 //import java.util.Arrays;
@@ -9,6 +11,9 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 //import org.springframework.context.annotation.PropertySource;
 //import org.springframework.context.annotation.PropertySources;
@@ -28,6 +33,7 @@ import com.example.demo3.annotation.TimeLog;
 import com.example.demo3.entity.Department;
 import com.example.demo3.entity.User;
 import com.example.demo3.repository.DepartmentRepositoryJPA;
+import com.example.demo3.repository.DeptPagingRepositoryJPA;
 import com.example.demo3.repository.UserMapper;
 import com.example.demo3.repository.UserRepositoryJPA;
 
@@ -43,6 +49,10 @@ public class Demo3RestController {
 	@Autowired
 	private Demo3Configuration config;
 	
+	//@PersistenceContext
+	//@Autowired
+	//private EntityManager entityManager;
+	
 	@Autowired
 	private UserRepositoryJPA userRepo;
 	
@@ -50,17 +60,18 @@ public class Demo3RestController {
 	private DepartmentRepositoryJPA deptRepo;
 	
 	@Autowired
+	private DeptPagingRepositoryJPA deptPageRepo;
+	
+	@Autowired
 	private UserMapper userMapper;
 	
 	@Autowired(required=false)
 	private FooComponent foo;
-//	@Autowired
-//	private UserMapper userMapper;
 	
 	private BCryptPasswordEncoder pwdEncoder = new BCryptPasswordEncoder(); 
 	
+	//@Transactional
 	@PostConstruct
-//	@RequestMapping("/init") 
 	private void init() {
 //		userRepo.save(User.of("z", pwdEncoder.encode("z"), Arrays.asList(UserRole.of("BASIC"))));
 //		userRepo.save(User.of("z", pwdEncoder.encode("z"), null));
@@ -69,6 +80,24 @@ public class Demo3RestController {
 //		logger.info("inited");
 		logger.info("FooComponent : {}", (null==foo?"disable":"enable"));
 		logger.info(">> name : {}, {}", config.getName(), config.getName2());
+		
+		List<User> users = new ArrayList<>();
+		for(int i=0; i<3; ++i) {
+			users.add(User.of("u"+i, "pwd"+i));
+		}
+		
+		userRepo.saveAll(users);
+		
+		List<Department> depts = new ArrayList<>();
+		Iterator<User> it = users.iterator();
+		while(it.hasNext()) {
+			depts.add(Department.of("dept"+depts.size(), it.next(), it.hasNext()?it.next():null));
+		}
+		
+		deptRepo.saveAll(depts);
+		//entityManager.persist(Department.of("deptA", Arrays.asList(u1,u3)));
+		
+		deptRepo.delete(depts.get(0));
 		
 		Demo3Configuration2 config2 = Demo3Configuration2.instance();
 		logger.info("Demo3Configuration2 config : {}", config2.getPropertiesFile());
@@ -154,9 +183,34 @@ public class Demo3RestController {
 		userRepo.deleteById(id);
 	}
 	
-	@RequestMapping("/project/{id}")
-	public Department getProject(@PathVariable("id")String id) {
-		return deptRepo.findById(Integer.parseInt(id)).get();
+	@GetMapping("/jpa/dept/{id}")
+	public Department jpaSelectDept(@PathVariable("id")Integer id) {
+		return deptRepo.findById(id).get();
+	}
+	
+	@GetMapping("/jpa/dept")
+	public Iterable<Department> jpaSelectDeptAll() {
+		Pageable pageable = PageRequest.of(100, 10, Sort.by("name").descending());
+		
+		return deptPageRepo.findAll(pageable);
+		//return deptRepo.findAll();
+	}
+	
+	@PutMapping(value="/jpa/dept", consumes={ MediaType.APPLICATION_JSON_VALUE })
+	public void jpaInsertDept(@RequestBody Department dept) {
+		logger.info("department[{}]", dept);
+		deptRepo.save(dept);
+	}
+	
+	@PostMapping(value="/jpa/dept", consumes={ MediaType.APPLICATION_JSON_VALUE })
+	public void jpaUpdateUser(@RequestBody Department dept) {
+		logger.info("department[{}]", dept);
+		deptRepo.save(dept);
+	}
+	
+	@DeleteMapping("/jpa/dept/{id}")
+	public void jpaDeleteDept(@PathVariable("id")Integer id) {
+		deptRepo.deleteById(id);
 	}
 	
 	@TimeLog

@@ -20,6 +20,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.boot.context.ApplicationPidFileWriter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.example.demo3.annotation.EnableTimeLog;
 
@@ -34,6 +35,7 @@ import com.example.demo3.annotation.EnableTimeLog;
 @EnableAutoConfiguration(exclude = {
 		MongoAutoConfiguration.class	
 })
+@EnableTransactionManagement
 public class Demo3Application {
 //	private static final String DEFAULT_NAMING_STRATEGY = "org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy";
 //	

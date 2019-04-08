@@ -2,14 +2,9 @@ package com.example.demo3.entity;
 
 import java.util.List;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-//import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
 
 //https://www.callicoder.com/spring-boot-rest-api-tutorial-with-mysql-jpa-hibernate/
 //https://spring.io/guides/gs/accessing-data-jpa/
@@ -21,7 +16,7 @@ import javax.persistence.ManyToOne;
  * 일반 사용자 정보로 사용자 식별 및 패스워드 관리
  */
 //@Entity(name = "users")
-@Entity(name = "users")
+@Entity//(name = "users")
 public class User {
 //	@GeneratedValue(strategy = GenerationType.SEQUENCE) //다른 테이블과 시쿼스 공유됨
 //	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +26,7 @@ public class User {
 	private String name;
 	
 	@ElementCollection
-	//@CollectionTable(name="user_roles", joinColumns={@JoinColumn(name="id")})
+	//@CollectionTable(name="user_role", joinColumns={@JoinColumn(name="id")})
 //	@CollectionTable(joinColumns={@JoinColumn(name="id")})
 	private List<UserRole> roles;
 	// 자동으로 현재 엔티티명와 속성명을 합친 USER_ROLES 테이블을 검색
@@ -61,6 +56,13 @@ public class User {
 		ret.setId(id);
 		ret.setPwd(pwd);
 		//ret.setGroup(group);
+		return ret;
+	}
+	
+	public static User of(String id, String pwd) {
+		User ret = new User();
+		ret.setId(id);
+		ret.setPwd(pwd);
 		return ret;
 	}
 	
@@ -103,7 +105,7 @@ public class User {
 //	public void setGroup(Group group) {
 //		this.group = group;
 //	}
-//
+
 //	public List<String> getHobbies() {
 //		return hobbies;
 //	}
